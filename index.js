@@ -10,12 +10,7 @@ var server = http.createServer(function(serverRequest, serverResponse) {
 
     console.log(destination);
     http.get(destination, function(clientResponse) {
-        clientResponse.on('data', function(chunk) {
-            serverResponse.write(chunk);
-        });
-        clientResponse.on('end', function() {
-            serverResponse.end();
-        });
+        clientResponse.pipe(serverResponse);
     }).on('error', function(error) {
         console.log('clientResponse error: ' + error);
     });
